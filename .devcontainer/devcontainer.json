@@ -1,0 +1,13 @@
+{
+    "name": "digin-preview",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+    "forwardPorts": [5500],
+    "postCreateCommand": "npm install -g live-server",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ritwickdey.LiveServer"
+        ]
+      }
+    }
+  }
