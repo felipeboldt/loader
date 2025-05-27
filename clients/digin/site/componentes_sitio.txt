@@ -1,0 +1,16 @@
+digin-website/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+├── images/
+│   ├── logo-digin-img.svg
+│   ├── apple-touch-icon.png
+│   ├── favicon-32x32.png
+│   ├── favicon-16x16.png
+│   ├── dashboard-example-1.jpeg
+│   ├── dashboard-example-2.jpeg
+│   └── dashboard-example-3.jpeg
+└── favicon.ico
+└── site.webmanifest (Opcional)
