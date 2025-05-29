@@ -10,7 +10,7 @@ fi
 
 SITE_PATH="clients/$CLIENT/site"
 DIST_PATH="$SITE_PATH/dist"
-BUCKET="s3://www.digin.cl"
+BUCKET="www.digin.cl"
 
 echo "🚀 Publicando sitio $CLIENT a producción (bucket S3)..."
 echo "📁 Ruta local: $DIST_PATH"
