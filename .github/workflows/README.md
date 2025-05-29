@@ -20,3 +20,21 @@ Este repositorio implementa un flujo de trabajo semiautomatizado para el desarro
    ```bash
    cd clients/<cliente>/site
    npm run dev
+3. Haz push a la rama dev:
+   ```bash
+   cd clients/<cliente>/site
+   npm run dev
+
+## 🚀 Flujo de despliegue a producción (main)
+1. Una vez validado el preview en dev, fusiona a main:
+   ```bash
+   git checkout main
+   git merge dev
+   git push origin main
+
+🧰 Scripts y herramientas)
+    Crear nuevo sitio estático
+    Ejecuta el siguiente script:
+    ```bash
+    bash tools/deploy/create-static-site.sh
+
