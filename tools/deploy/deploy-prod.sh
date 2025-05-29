@@ -1,28 +1,42 @@
-# ./tools/deploy/deploy-prod.sh
 #!/bin/bash
 
 CLIENT=$1
 
 if [ -z "$CLIENT" ]; then
-  echo "❌ Debes indicar el nombre del cliente (ej: ./deploy-prod.sh digin)"
+  echo "❌ Debes indicar el nombre del cliente"
   exit 1
 fi
 
 SITE_PATH="clients/$CLIENT/site"
-DIST_PATH="$SITE_PATH/dist"
-BUCKET="www.digin.cl"
+CONFIG_PATH="clients/$CLIENT/config.json"
 
-echo "🚀 Publicando sitio $CLIENT a producción (bucket S3)..."
-echo "📁 Ruta local: $DIST_PATH"
-echo "🪣 Bucket destino: s3://$BUCKET/$CLIENT"
-
-# Validar si el build existe
-if [ ! -d "$DIST_PATH" ]; then
-  echo "❌ No se encontró la carpeta dist. ¿Ejecutaste vite build?"
+if [ ! -d "$SITE_PATH/dist" ]; then
+  echo "❌ No se encontró la carpeta de build: $SITE_PATH/dist"
   exit 1
 fi
 
-# Subir a S3
-aws s3 sync "$DIST_PATH/" "s3://$BUCKET/$CLIENT" --delete || exit 1
+if [ ! -f "$CONFIG_PATH" ]; then
+  echo "❌ No se encontró archivo de configuración en $CONFIG_PATH"
+  exit 1
+fi
 
-echo "✅ Sitio $CLIENT publicado correctamente en producción."
+# Extraer bucket desde config.json
+BUCKET=$(jq -r '.bucket' "$CONFIG_PATH")
+
+if [ "$BUCKET" == "null" ] || [ -z "$BUCKET" ]; then
+  echo "❌ El bucket no está definido correctamente en $CONFIG_PATH"
+  exit 1
+fi
+
+echo "🚀 Publicando sitio $CLIENT a producción (bucket S3)..."
+echo "📁 Ruta local: $SITE_PATH/dist"
+echo "🪣 Bucket destino: s3://$BUCKET"
+
+# Subir archivos
+aws s3 sync "$SITE_PATH/dist" "s3://$BUCKET" --delete
+
+if [ $? -eq 0 ]; then
+  echo "✅ Sitio $CLIENT publicado correctamente en producción."
+else
+  echo "❌ Error al publicar el sitio."
+fi
