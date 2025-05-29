@@ -1,40 +1,3 @@
-<<<<<<< HEAD
-# 🚫 Archivos y carpetas comunes a ignorar
-
-# node_modules global (en caso de error)
-node_modules/
-
-# carpetas de build de Vite (por cliente)
-**/dist/
-
-# variables de entorno
-.env
-.env.local
-
-# archivos de sistema macOS
-.DS_Store
-
-# logs
-*.log
-
-# configuración del editor
-.vscode/
-
-# configuración de dependencias de containers
-.devcontainer/
-
-# archivos swap o temporales
-*.swp
-*.tmp
-*~
-
-# backups
-*.bak
-
-# caches de lint o herramientas
-.eslintcache
-stylelint.cache
-=======
 # 📦 Dependencias (npm/yarn/pnpm)
 **/node_modules/
 
@@ -44,12 +7,14 @@ stylelint.cache
 # 🌐 Entornos locales
 .env
 .env.local
+*.local.json
 
 # 🍏 macOS
 .DS_Store
 
 # 📓 Logs
 *.log
+npm-debug.log*
 
 # 🧪 Archivos temporales
 *.tmp
@@ -67,4 +32,6 @@ stylelint.cache
 
 # 🧪 Coverage (si usás tests)
 coverage/
->>>>>>> dev
+
+# ⚡ Caches de herramientas (opcional según tu stack)
+.cache/
