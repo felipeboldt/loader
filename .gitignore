@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚫 Archivos y carpetas comunes a ignorar
 
 # node_modules global (en caso de error)
@@ -33,3 +34,37 @@ node_modules/
 # caches de lint o herramientas
 .eslintcache
 stylelint.cache
+=======
+# 📦 Dependencias (npm/yarn/pnpm)
+**/node_modules/
+
+# ⚙️ Builds de Vite (por cliente)
+**/dist/
+
+# 🌐 Entornos locales
+.env
+.env.local
+
+# 🍏 macOS
+.DS_Store
+
+# 📓 Logs
+*.log
+
+# 🧪 Archivos temporales
+*.tmp
+*.swp
+*~
+
+# 🛠️ VS Code
+.vscode/
+
+# 🐳 Devcontainers
+.devcontainer/
+
+# 🔁 Archivos de backup
+*.bak
+
+# 🧪 Coverage (si usás tests)
+coverage/
+>>>>>>> dev
