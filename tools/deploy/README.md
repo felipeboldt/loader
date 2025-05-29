@@ -26,4 +26,4 @@ Este módulo permite generar de forma estandarizada la estructura de un nuevo cl
 Desde la raíz del repo:
 
 ```bash
-./tools/deploy/create-client.sh nombre_cliente
+./tools/deploy/create-static-site.sh nombre_cliente
