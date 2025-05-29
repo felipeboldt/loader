@@ -1,0 +1,32 @@
+# 📦 Dependencias (npm/yarn/pnpm)
+**/node_modules/
+
+# ⚙️ Builds de Vite (por cliente)
+**/dist/
+
+# 🌐 Entornos locales
+.env
+.env.local
+
+# 🍏 macOS
+.DS_Store
+
+# 📓 Logs
+*.log
+
+# 🧪 Archivos temporales
+*.tmp
+*.swp
+*~
+
+# 🛠️ VS Code
+.vscode/
+
+# 🐳 Devcontainers
+.devcontainer/
+
+# 🔁 Archivos de backup
+*.bak
+
+# 🧪 Coverage (si usás tests)
+coverage/
