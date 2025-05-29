@@ -212,3 +212,18 @@ jobs:
 EOL
 
 echo "✅ Workflow de producción creado: $WORKFLOW_DIR/deploy-$CLIENT.yml"
+
+# Crear archivo de configuración S3 por cliente
+CONFIG_PATH="$SITE_PATH/config.json"
+
+if [ ! -f "$CONFIG_PATH" ]; then
+  echo "🛠️  Generando archivo de configuración S3..."
+  cat > "$CONFIG_PATH" <<EOL
+{
+  "bucket": "www.${CLIENT}.cl"
+}
+EOL
+  echo "✅ Configuración creada en $CONFIG_PATH"
+else
+  echo "ℹ️  El archivo config.json ya existe"
+fi
