@@ -23,6 +23,6 @@ if [ ! -d "$DIST_PATH" ]; then
 fi
 
 # Subir a S3
-aws s3 sync "$DIST_PATH/" "s3://$BUCKET/$CLIENT" --delete
+aws s3 sync "$DIST_PATH/" "s3://$BUCKET/$CLIENT" --delete || exit 1
 
 echo "✅ Sitio $CLIENT publicado correctamente en producción."
