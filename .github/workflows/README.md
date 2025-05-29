@@ -1,21 +1,22 @@
-# 🧠 CI/CD Workflow: loader
+# 🚀 CI/CD Workflow para Sitios Estáticos
 
-Este repositorio usa un flujo de trabajo Git semiautomatizado para mantener una separación clara entre desarrollo, pruebas y producción. El despliegue a AWS S3 se maneja con GitHub Actions.
-
----
-
-## 🪢 Estructura de Ramas
-
-| Rama  | Propósito                        | ¿Despliega a Producción? |
-|-------|----------------------------------|---------------------------|
-| `dev` | Desarrollo, testing, Codespaces | ❌ No                     |
-| `main`| Producción (deploy a S3)        | ✅ Sí                     |
+Este repositorio implementa un flujo de trabajo semiautomatizado para el desarrollo, prueba y despliegue de sitios estáticos con GitHub Actions y AWS S3.
 
 ---
 
-## 🚀 Flujo de trabajo recomendado
+## 🔀 Estructura de ramas
 
-### 1. Desarrollo en `dev`
+| Rama  | Propósito                               | ¿Despliega en Producción? |
+|-------|------------------------------------------|----------------------------|
+| `dev` | Desarrollo local, validaciones, preview | ❌ No                     |
+| `main`| Producción, despliegue a AWS S3         | ✅ Sí                     |
 
-```bash
-git checkout dev
+---
+
+## 🧪 Flujo de trabajo en `dev`
+
+1. Realiza cambios en tu máquina local.
+2. Ejecuta pruebas locales y/o usa Codespaces:
+   ```bash
+   cd clients/<cliente>/site
+   npm run dev
