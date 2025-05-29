@@ -1,0 +1,26 @@
+{
+  "name": "digin-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vite.config.js",
+ "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "lint:css": "stylelint 'css/**/*.css'",
+  "lint:html": "htmlhint '**/*.html'",
+  "lint:js": "eslint 'js/**/*.js'",
+  "lint": "npm run lint:html && npm run lint:css && npm run lint:js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "eslint": "^9.27.0",
+    "htmlhint": "^1.2.0",
+    "stylelint": "^16.19.1",
+    "stylelint-config-standard": "^38.0.0",
+    "vite": "^6.3.5"
+  }
+}
