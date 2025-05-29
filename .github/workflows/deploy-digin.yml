@@ -4,21 +4,33 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'clients/digin/site/**'
 
 jobs:
   deploy:
-    name: 🚀 Deploy to AWS S3 (production)
+    name: 🚀 Build & Deploy to AWS S3
     runs-on: ubuntu-latest
-
-    environment:
-      name: production
-      url: https://www.digin.cl
+    environment: production
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Sync to S3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: clients/digin/site
+        run: npm install
+
+      - name: Build static site with Vite
+        working-directory: clients/digin/site
+        run: npm run build
+
+      - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
           args: --delete
@@ -27,4 +39,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "sa-east-1"
-          SOURCE_DIR: clients/digin/site
+          SOURCE_DIR: clients/digin/site/dist
