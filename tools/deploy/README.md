@@ -1,6 +1,8 @@
 # 🚀 CI/CD Workflow para Sitios Estáticos
 
-Este repositorio implementa un flujo de trabajo semiautomatizado para el desarrollo, prueba y despliegue de sitios estáticos con GitHub Actions y AWS S3.
+Este repositorio contiene la infraestructura automatizada para generar, previsualizar, testear y desplegar sitios estáticos personalizados por cliente, usando **Vite + GitHub Actions + AWS S3**.
+
+Diseñado para escalar en entornos multi-brand, con buenas prácticas integradas (linters, CI/CD, separación de entornos).
 
 ---
 
@@ -11,9 +13,51 @@ Este repositorio implementa un flujo de trabajo semiautomatizado para el desarro
 | `dev` | Desarrollo local, validaciones, preview | ❌ No                     |
 | `main`| Producción, despliegue a AWS S3         | ✅ Sí                     |
 
+
 ---
 
-## 🧪 Flujo de trabajo en `dev`
+## 📁 Estructura del proyecto
+Clients/
+└── /
+└── site/
+├── index.html
+├── vite.config.js
+├── css/
+├── js/
+└── dist/ (build)
+.github/
+└── workflows/
+├── preview-.yml
+└── deploy-.yml
+tools/
+└── deploy/
+├── create-static-site.sh
+├── deploy-dev.sh
+├── deploy-prod.sh
+└── preview-dev.sh
+---
+
+## 🧰 CLI Interno
+
+Utiliza los scripts Bash como comandos CLI:
+
+```bash
+# Crear un nuevo sitio base para cliente
+bash tools/deploy/create-static-site.sh <cliente>
+
+# Previsualizar localmente (vite preview)
+bash tools/deploy/preview-dev.sh <cliente>
+
+# Generar build de desarrollo
+bash tools/deploy/deploy-dev.sh <cliente>
+
+# Publicar build en S3 (producción)
+bash tools/deploy/deploy-prod.sh <cliente>
+
+🔐 Las credenciales AWS se gestionan a través de GitHub Secrets (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, BUCKET_<CLIENTE>…).
+
+## 🧪 Flujo de trabajo en CI/CD
+🔁 Rama dev — Previsualización
 
 1. Realiza cambios en tu máquina local.
 2. Ejecuta pruebas locales y/o usa Codespaces:
@@ -27,75 +71,89 @@ Este repositorio implementa un flujo de trabajo semiautomatizado para el desarro
     git push origin dev
 
 
-🔧 Se ejecuta el workflow preview.yml:
+4. Se ejecuta el workflow preview.yml:
 	•	Lint de HTML, CSS, JS
 	•	Build con Vite
 	•	Ideal para pruebas locales o preview en Codespaces
 
-🚀 Flujo de despliegue a producción (main)
+🚀 Rama main — Producción
 	1.	Una vez validado el preview en dev, fusiona a main:
     ```bash
     git checkout main
     git merge dev
     git push origin main
     
-    2.	Una vez validado el preview en dev, fusiona a main:
+    2.	Github ejecuta
     •	Build con Vite
 	•	Deploy del contenido generado (dist/) al bucket de AWS S3
 	•	Asociado al entorno production
 
-🧰 Scripts y herramientas
+🛠 Linters configurados
+	Cada sitio incluye configuración para:
+	•	✅ stylelint (CSS)
+	•	✅ eslint (JS)
+	•	✅ htmlhint (HTML)
 
-Crear nuevo sitio estático
+	Comando global de linting:
+	```bash
+	npm run lint
 
-Ejecuta el siguiente script:
-```bash
-bash tools/deploy/create-static-site.sh
 
-📦 Esto creará la estructura del cliente en clients/<cliente>/site con:
-	•	index.html, vite.config.js
-	•	package.json con linters configurados
-	•	.gitignore y estructura base lista
+🌐 Hosting en Producción (S3)
+	Cada cliente tiene su configuración en:
+	```bash
+	clients/<cliente>/site/config.json
 
-También generará automáticamente un workflow de preview:
-```bash
-.github/workflows/preview-<cliente>.yml
+	Ejemplo:
+	```json
+	{
+  		"bucket": "www.cliente123.cl"
+	}
+	El script de deploy sincroniza dist/ con el bucket:
+	```bash
+	aws s3 sync dist/ s3://www.cliente123.cl --delete
 
-🛡️ Buenas prácticas y linters
+📦 Dependencias
 
-Cada sitio tiene configurado:
-	•	Stylelint para CSS
-	•	ESLint para JS
-	•	HTMLHint para HTML
+Se instalan automáticamente al crear un nuevo sitio:
+	•	vite
+	•	stylelint, stylelint-config-standard
+	•	eslint
+	•	htmlhint
 
-Puedes ejecutar manualmente:
-```bash
-npm run lint
+Tambien se instalan manualmente:
+	```bash
+	npm install
 
-🌐 Producción en AWS
-	•	Bucket S3: configurado con hosting estático
-	•	CloudFront (opcional): en producción puedes añadir invalidaciones si necesitas manejo de caché más fino.
 
-🧼 Archivos ignorados por Git
+🧼 .gitignore recomendado
+	```bash
+	node_modules/
+	**/dist/
+	.env
+	.env.local
+	.DS_Store
+	.vscode/
 
-Revisa el archivo raíz .gitignore, que incluye:
-```bash
-# node_modules, builds
-node_modules/
-**/dist/
+✅ Recomendaciones
+	1.	Usa create-static-site.sh para nuevos clientes.
+	2.	Trabaja sobre la rama dev.
+	3.	Haz preview local o desde Codespaces.
+	4.	Valida y luego haz merge a main para publicar.
+	5.	Opcional: dockeriza o empaqueta como CLI para mayor portabilidad.
 
-# Configuración de entornos
-.env
-.env.local
 
-# macOS y VS Code
-.DS_Store
-.vscode/
+📌 Estado actual:
+Tu pipeline ahora está full productivo:
+	•	GitHub Actions + S3 + CloudFront ✅
+	•	Deploy automático en push a main ✅
+	•	Invalidación automática de cache ✅
+	•	Reglas de permisos AWS revisadas ✅
+	•	Linter, estructura por cliente y modularización OK ✅
 
-📌 Recomendación
 
-Si estás agregando nuevos sitios estáticos:
-	1.	Usa el script create-static-site.sh
-	2.	Trabaja en la rama dev
-	3.	Revisa el preview desde Codespaces o local
-	4.	Solo luego mergea a main para publicar
+📌 Roadmap sugerido
+	•	Agregar CloudFront + invalidación ✅ 
+	•	Agregar CLI unificado (Node.js o Taskfile)
+	•	Notificaciones a Slack/Discord post-deploy
+	•	Integrar con AWS IAM más granular
