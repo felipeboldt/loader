@@ -38,7 +38,7 @@ Al hacer push a main, se dispara el deploy automático.
 ```bash
 git checkout main
 git pull origin main          # asegura que estás actualizado
-git merge dev                 # trae los cambios de dev # (resuelve conflictos si los hay)
+git merge dev -m "merge: integrar cambios de dev en main"  #resuelve los conflictos si los hay
 git push origin main
 ```
 ### 5. GitHub Actions despliega automáticamente
@@ -79,7 +79,7 @@ git push origin dev
 ```bash
 git checkout main
 git pull origin main           # asegúrate de estar actualizado
-git merge dev # resuelve conflictos si los hay
+git merge dev -m "merge: integrar cambios de dev en main"  #resuelve los conflictos si los hay
 git push origin main
 ```
 ### 5.  Verifica si hay efectos colaterales
