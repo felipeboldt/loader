@@ -39,11 +39,14 @@ Cada push a la rama `main` dispara:
 
 ---
 
-## 📘 Guía de Despliegue
+## 📘 Documentación clave
 
 Para editar, testear y desplegar sitios o scripts:
 
 👉 [tools/deploy/DEPLOY_GUIDE.md](tools/deploy/DEPLOY_GUIDE.md)
+
+Cómo publicar nuevos sitios
+👉 [Checklist para nuevos sitios estáticos](tools/deploy/checklist-deploy-static-site.md)
 
 ---
 
