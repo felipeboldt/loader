@@ -2,6 +2,9 @@
 
 Este documento describe el flujo completo para editar, validar y publicar cambios en el sitio de DigIn usando Git, GitHub Actions, Vite, S3 y CloudFront.
 
+## 👉 Vas a crear un nuevo cliente desde cero?
+👉 [Checklist para nuevos sitios estáticos](tools/deploy/checklist-deploy-static-site.md)
+
 ---
 
 ## 🔁 Flujo completo de despliegue de sitios estáticos
@@ -86,3 +89,19 @@ git push origin main
 	•	Workflows .yml: se ejecutan automáticamente.
 	•	Scripts: sólo afectan si los llamás manualmente.
 	•	Readme o Docs: sólo informativo, no impacta la app.
+
+## 🧹 Validación automática de código (Lint en rama `dev`)
+
+Cada vez que haces push a la rama `dev`, se ejecuta un workflow llamado `Lint Site on Dev Push`, que:
+
+- Verifica que el código HTML, CSS y JS siga buenas prácticas.
+- Utiliza `htmlhint`, `stylelint` y `eslint` de forma centralizada.
+- Ayuda a mantener un código limpio antes de mergear a `main`.
+
+Puedes correr los linters también de forma local:
+
+```bash
+npm run lint:html
+npm run lint:css
+npm run lint:js
+```

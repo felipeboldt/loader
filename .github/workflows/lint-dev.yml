@@ -1,0 +1,41 @@
+name: Lint Sites en Dev
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'clients/**'
+
+jobs:
+  lint:
+    name: 🔍 Lint para múltiples sitios
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        client: [digin, loader, americantruck]  # Agregá más aquí: [digin, acme, globex]
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias
+        working-directory: clients/${{ matrix.client }}/site
+        run: npm install
+
+      - name: Lint JS
+        working-directory: clients/${{ matrix.client }}/site
+        run: npm run lint:js
+
+      - name: Lint CSS
+        working-directory: clients/${{ matrix.client }}/site
+        run: npm run lint:css
+
+      - name: Lint HTML
+        working-directory: clients/${{ matrix.client }}/site
+        run: npm run lint:html

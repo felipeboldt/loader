@@ -4,20 +4,39 @@ Este checklist aplica a sitios HTML/CSS/JS simples (tipo landing), desplegados e
 
 ---
 
-## 🧩 1. Crear nuevo cliente
+## **🧩 1. Crear nuevo cliente**
 
 ```bash
 ./tools/deploy/create-static-site.sh nombre_cliente
 ```
-
-- ✅ Genera estructura clients/nombre_cliente/site/
-- ✅ Crea workflows de preview y deploy
-- ✅ Instala dependencias (vite, linters, etc.)
-- ✅ Configura vite.config.js, package.json y archivos base
+Esto genera:
+- ✅ Estructura clients/nombre_cliente/site/
+- ✅ Archivos base: index.html, css/style.css, js/script.js
+- ✅ Configura vite.config.js con base: './' (necesario para S3)
+- ✅ Inicializa package.json con scripts de build/lint
+- ✅ Instala dependencias (vite, eslint, stylelint, htmlhint, etc.)
 
 ---
 
-## **🔐 2. Configurar Secrets en GitHub**
+
+
+## **🔄 2. Agregar cliente a matriz de linters (preview)**
+**Esto permite que los linters se ejecuten en los nuevos sitios automáticamente en cada push a dev.**
+
+1. Editar el archivo
+```bash
+.github/workflows/lint_dev.yml
+```
+
+2. Y agregar el nuevo cliente en la matriz:
+```yaml
+strategy:
+  matrix:
+    client: [digin, nombre_cliente]
+```
+
+
+## **🔐 3. Configurar Secrets en GitHub**
 
 Ir a **Repo → Settings → Secrets → Actions**
 
@@ -33,7 +52,7 @@ Agregar:
 
 ---
 
-## **🧪 3. Subir cambios a rama dev  (entorno de prueba)**
+## **🧪 4. Subir cambios a rama dev  (entorno de prueba)**
 
 ```bash
 git checkout dev
@@ -47,33 +66,44 @@ git push origin dev
 - ✅ Hace build con Vite
 - ✅ No impacta producción
 
-## **👁 4. Probar en Codespaces (opcional)**
+## **👁 5. Probar en Codespaces y validar visualmente (opcional)**
 
-```yaml
+**En Codespaces**
+```bash
 cd clients/nombre_cliente/site
+npm install
 npm run dev
 ```
+**En local**
+Previsualizá el sitio en http://localhost:5173/
+```bash
+./tools/deploy/preview-dev.sh nombre_cliente
+```
 
-> Previsualizá el sitio en http://localhost:5173/
-Ideal para revisión de QA o demo interna
-> 
-
-## **🚢 5. Publicar en producción (S3 + CloudFront)**
+## **🚢 6. Publicar en producción (S3 + CloudFront)**
 
 ```bash
 git checkout main
-git merge dev
+git pull origin main      # asegura estar actualizado
+git merge dev -m "merge: agregar sitio nombre_cliente"
 git push origin main
 ```
+O bien puedes correr:
+```bash
+./tools/deploy/deploy-prod.sh nombre_cliente
+```
+
 
 ---
 
-## **🧼 6. Tareas opcionales**
+## **🧼 7. Tareas opcionales**
 
 - Agregar dominio personalizado (CloudFront + Route53)
 - Incluir certificado SSL en ACM
+- Publicar sitio en GitHub Pages (opcional para pruebas)
 - Crear landing con header/footer reutilizable
-- Validar performance con Lighthouse
+- Optimizar con Lighthouse, Minify, Lazy Load
+- Subir favicon, logos, imàgenes comprimidas
 
 ---
 
@@ -83,3 +113,4 @@ git push origin main
 - 🔐 No hardcodear secretos (usar GitHub Secrets)
 - 📁 Mantener consistencia en carpetas: clients/<cliente>/site
 - ✅ Usar vite.config.js con base: './' para compatibilidad S3
+- 🧪 Validar en dev antes de hacer merge a main
