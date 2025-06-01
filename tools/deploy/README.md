@@ -48,11 +48,12 @@ bash tools/deploy/create-static-site.sh <cliente>
 # Previsualizar localmente (vite preview)
 bash tools/deploy/preview-dev.sh <cliente>
 
-# Generar build de desarrollo
+# Generar build de desarrollo (en desuso)
 bash tools/deploy/deploy-dev.sh <cliente>
 
-# Publicar build en S3 (producción)
+# Publicar build en S3 (producción)(en desuso)
 bash tools/deploy/deploy-prod.sh <cliente>
+```
 
 🔐 Las credenciales AWS se gestionan a través de GitHub Secrets (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, BUCKET_<CLIENTE>…).
 
@@ -61,16 +62,16 @@ bash tools/deploy/deploy-prod.sh <cliente>
 
 1. Realiza cambios en tu máquina local.
 2. Ejecuta pruebas locales y/o usa Codespaces:
-   ```bash
-   cd clients/<cliente>/site
-   npm run dev
+```bash
+cd clients/<cliente>/site
+npm run dev
+```
 3. Haz push a la rama dev:
-    ```bash
-    git add .
+```bash
+	git add .
     git commit -m "feat: nueva sección de beneficios"
     git push origin dev
-
-
+```
 4. Se ejecuta el workflow preview.yml:
 	•	Lint de HTML, CSS, JS
 	•	Build con Vite
@@ -78,11 +79,11 @@ bash tools/deploy/deploy-prod.sh <cliente>
 
 🚀 Rama main — Producción
 	1.	Una vez validado el preview en dev, fusiona a main:
-    ```bash
+```bash
     git checkout main
     git merge dev
     git push origin main
-    
+``` 
     2.	Github ejecuta
     •	Build con Vite
 	•	Deploy del contenido generado (dist/) al bucket de AWS S3
@@ -95,23 +96,25 @@ bash tools/deploy/deploy-prod.sh <cliente>
 	•	✅ htmlhint (HTML)
 
 	Comando global de linting:
-	```bash
+```bash
 	npm run lint
-
+```
 
 🌐 Hosting en Producción (S3)
 	Cada cliente tiene su configuración en:
-	```bash
+```bash
 	clients/<cliente>/site/config.json
-
+```
 	Ejemplo:
-	```json
+```json
 	{
   		"bucket": "www.cliente123.cl"
 	}
+```
 	El script de deploy sincroniza dist/ con el bucket:
-	```bash
+```bash
 	aws s3 sync dist/ s3://www.cliente123.cl --delete
+```
 
 📦 Dependencias
 
@@ -122,18 +125,19 @@ Se instalan automáticamente al crear un nuevo sitio:
 	•	htmlhint
 
 Tambien se instalan manualmente:
-	```bash
-	npm install
-
+```bash
+npm install
+```
 
 🧼 .gitignore recomendado
-	```bash
+```bash
 	node_modules/
 	**/dist/
 	.env
 	.env.local
 	.DS_Store
 	.vscode/
+```
 
 ✅ Recomendaciones
 	1.	Usa create-static-site.sh para nuevos clientes.
