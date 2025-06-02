@@ -14,7 +14,8 @@ Este documento describe el flujo completo para editar, validar y publicar cambio
 Haz tus cambios en HTML, CSS o JS dentro de:
 *clients/digin/site/*
 ```bash
-git checkout dev
+sync-dev                        #cambia a ambiente dev y descarga toda la rama de dev a local
+git checkout dev                #opcional si haces el paso anterior
 code clients/digin/site/index.html   # o el archivo que desees editar
 ```
 
@@ -61,7 +62,8 @@ No necesitas ejecutar ningún script manual.
 Haz tus cambios de componentess transversales dentro de:
 *loader, loader/tools o loader/.github, etc.*
 ```bash
-git checkout dev
+sync-dev                        #cambia a ambiente dev y descarga toda la rama de dev a local
+git checkout dev                #opcional si haces el paso anterior
 code README.md  # o el archivo que desees editar
 code code tools/deploy/deploy-prod.sh # o el archivo que desees editar
 code .github/workflows/deploy-digin.yml # o el archivo que desees editar
