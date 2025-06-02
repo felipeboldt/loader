@@ -1,13 +1,20 @@
 {
-    "name": "digin-preview",
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
-    "forwardPorts": [5500],
-    "postCreateCommand": "npm install -g live-server",
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "ritwickdey.LiveServer"
-        ]
-      }
+  "name": "digin-preview",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "workspaceFolder": "/workspaces/loader",
+  "forwardPorts": [5500],
+  "postCreateCommand": "npm install -g live-server",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ritwickdey.LiveServer",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "stylelint.vscode-stylelint"
+      ]
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
   }
+}
